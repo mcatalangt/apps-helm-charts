@@ -55,6 +55,13 @@ jobs:
         with:
           version: 'v3.13.3'
 
+      - name: 4.5. Agregar y Actualizar Repositorio de Bitnami
+        run: |
+          # 1. Agrega el repositorio de Bitnami (URL oficial)
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          
+          # 2. Actualiza la lista de Charts locales
+          helm repo update          
 # -----------------------------------------------------------
       # FASE II: DESPLIEGUE HELM
       # -----------------------------------------------------------
