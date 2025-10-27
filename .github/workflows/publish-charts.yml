@@ -1,0 +1,22 @@
+name: Despliegue de todos las herramientas a GKE con Helm
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy (dev, prod)"
+        required: true
+        default: dev
+
+jobs:
+  # Nombre del job: Solo un mensaje de registro
+  logging_job:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Imprimir Mensaje de Verificación
+        run: |
+          echo "==============================================="
+          echo "✅ Este job se ejecutó con éxito."
+          echo "El workflow ha llegado al paso de verificación."
+          echo "==============================================="

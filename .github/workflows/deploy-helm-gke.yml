@@ -1,0 +1,75 @@
+# .github/workflows/deploy-helm-gke.yml
+name: Despliegue de RabbitMQ a GKE con Helm
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy (dev, prod)"
+        required: true
+        default: dev
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_ID: ${{ vars.GCP_PROJECT }}
+  GKE_REGION: ${{ vars.GKE_CLUSTER }}
+  GKE_CLUSTER: ${{ vars.GKE_ZONE }}
+  K8S_NAMESPACE: messaging 
+  HELM_CHART_PATH: charts/rabbitmq-cluster # Ruta a tu Chart dentro del repo
+  HELM_RELEASE_NAME: rabbitmq-instance
+  IMAGE_TAG: ${{ github.sha }} 
+  # Se asume que tienes un Secret llamado GCP_SA_KEY para la autenticación
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Necesario para OIDC si usas Workload Identity
+      
+    steps:
+      - name: 1. Checkout Repository
+        uses: actions/checkout@v4
+
+      # -----------------------------------------------------------
+      # FASE I: AUTENTICACIÓN Y HERRAMIENTAS
+      # -----------------------------------------------------------
+      - name: 2. Autenticación con Google Cloud
+        uses: 'google-github-actions/auth@v2'
+        with:
+          # Usar clave de SA o Workload Identity (preferido)
+          credentials_json: ${{ secrets.GCP_SA_KEY }} 
+
+      - name: 3. Configurar Conexión a GKE (Kubeconfig)
+        uses: 'google-github-actions/get-gke-credentials@v2'
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_REGION }}
+          project_id: ${{ env.PROJECT_ID }}
+          # 💡 Esto configura `kubectl` para apuntar a tu clúster.
+
+      - name: 4. Configurar Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: 'v3.13.3'
+
+# -----------------------------------------------------------
+      # FASE II: DESPLIEGUE HELM
+      # -----------------------------------------------------------
+      - name: 5. Ejecutar Helm Upgrade/Install
+        run: |
+          # 1. Asegura que el Namespace exista antes de desplegar
+          kubectl create namespace ${{ env.K8S_NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
+          
+          # 2. Comando principal para instalar/actualizar la Release
+          helm upgrade ${{ env.HELM_RELEASE_NAME }} ${{ env.HELM_CHART_PATH }} \
+            --install \
+            --namespace ${{ env.K8S_NAMESPACE }} \
+            --atomic \
+            --wait \
+            --timeout 10m \
+            # ➡️ Puedes sobreescribir valores de RabbitMQ aquí (ej: usuario/password)
+            --set auth.username=rabbitmq-admin \
+            --set auth.password=admin
