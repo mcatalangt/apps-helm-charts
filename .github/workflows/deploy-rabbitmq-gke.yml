@@ -60,16 +60,10 @@ jobs:
       # -----------------------------------------------------------
       - name: 5. Ejecutar Helm Upgrade/Install
         run: |
-          # 1. Asegura que el Namespace exista antes de desplegar
-          kubectl create namespace ${{ env.K8S_NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
-          
-          # 2. Comando principal para instalar/actualizar la Release
-          helm upgrade ${{ env.HELM_RELEASE_NAME }} ${{ env.HELM_CHART_PATH }} \
+          helm upgrade rabbitmq-instance bitnami/rabbitmq \
             --install \
-            --namespace ${{ env.K8S_NAMESPACE }} \
-            --atomic \
-            --wait \
-            --timeout 10m \
+            -f deploy-configs/prod-values.yaml \
+            --namespace rabbitmq
             # ➡️ Puedes sobreescribir valores de RabbitMQ aquí (ej: usuario/password)
             --set auth.username=rabbitmq-admin \
             --set auth.password=admin
