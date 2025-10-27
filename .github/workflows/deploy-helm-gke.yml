@@ -14,8 +14,8 @@ on:
 
 env:
   PROJECT_ID: ${{ vars.GCP_PROJECT }}
-  GKE_REGION: ${{ vars.GKE_CLUSTER }}
-  GKE_CLUSTER: ${{ vars.GKE_ZONE }}
+  GKE_REGION: ${{ vars.GKE_ZONE }}
+  GKE_CLUSTER: ${{ vars.GKE_CLUSTER }}
   K8S_NAMESPACE: messaging 
   HELM_CHART_PATH: charts/rabbitmq-cluster # Ruta a tu Chart dentro del repo
   HELM_RELEASE_NAME: rabbitmq-instance
