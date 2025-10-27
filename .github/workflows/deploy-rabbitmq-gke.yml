@@ -62,7 +62,7 @@ jobs:
         run: |
           helm upgrade rabbitmq-instance bitnami/rabbitmq \
             --install \
-            -f deploy-configs/prod-values.yaml \
+            -f charts/rabbitmq-cluster/prod-values.yaml \
             --namespace rabbitmq
             # ➡️ Puedes sobreescribir valores de RabbitMQ aquí (ej: usuario/password)
             --set auth.username=rabbitmq-admin \
