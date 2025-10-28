@@ -78,7 +78,7 @@ jobs:
             --set resources.limits.cpu=500m \
             --set resources.limits.memory=1Gi \
             --set image.repository=docker.io/bitnami/rabbitmq \
-            --set image.tag=3.13.4 \
+            --set image.tag=latest \
             --atomic \
             --debug \
             --wait 
