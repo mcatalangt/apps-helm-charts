@@ -68,9 +68,10 @@ jobs:
           kubectl krew  
           kubectl krew install rabbitmq
 
-      - name: Install/Upgrade RabbitMQ Cluster Operator (pinned version)
+      - name: Install RabbitMQ Cluster Operator
         run: |
           set -euo pipefail
+          export PATH="$HOME/.krew/bin:$PATH"
           kubectl rabbitmq install-cluster-operator
           kubectl -n rabbitmq-system rollout status deploy/rabbitmq-cluster-operator --timeout=5m
         env:
