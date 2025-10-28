@@ -70,7 +70,13 @@ jobs:
           helm upgrade rabbitmq-instance bitnami/rabbitmq \
             --install \
             -f ${{ env.HELM_CHART_PATH }}/custom-values.yaml \
-            --namespace messaging
-            # ➡️ Puedes sobreescribir valores de RabbitMQ aquí (ej: usuario/password)
+            --namespace messaging \
             --set auth.username=rabbitmq-admin \
-            --set auth.password=admin
+            --set auth.password=admin \
+            --set resources.requests.cpu=500m \
+            --set resources.requests.memory=1Gi \
+            --set resources.limits.cpu=1000m \
+            --set resources.limits.memory=2Gi \
+            --atomic \
+            --wait \
+            --timeout 10m
