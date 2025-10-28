@@ -63,13 +63,11 @@ jobs:
           # 2. Actualiza la lista de Charts locales
           helm repo update
 
-      - name: actualiza helm a la version mas reciente
-        run: |
-          helm upgrade rabbitmq-instance bitnami/rabbitmq \
 
       - name: Ejecutar Helm Install
         run: |
-          helm install rabbitmq-cluster oci://registry-1.docker.io/bitnamicharts/rabbitmq \
+          helm upgrade rabbitmq-cluster bitnami/rabbitmq 
+            --install oci://registry-1.docker.io/bitnamicharts/rabbitmq \
             -f ${{ env.HELM_CHART_PATH }}/custom-values.yaml \
             --namespace messaging \
             --atomic \
