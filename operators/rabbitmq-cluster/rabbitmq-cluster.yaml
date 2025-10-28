@@ -5,9 +5,6 @@ metadata:
   namespace: messaging
 spec:
   replicas: 2
-  secretBackend:
-    externalSecret: 
-      name: "rabbitmq-admin-creds"
   resources:
     requests:
       cpu: 500m
