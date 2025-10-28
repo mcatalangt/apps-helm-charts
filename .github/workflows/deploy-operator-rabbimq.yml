@@ -59,9 +59,35 @@ jobs:
         env:
           LOG_LEVEL: debug
 
+      - name: Install/Upgrade RabbitMQ Messaging Topology Operator
+        run: |
+          kubectl apply -f "https://github.com/rabbitmq/messaging-topology-operator/releases/latest/download/messaging-topology-operator.yaml"
+          kubectl -n rabbitmq-system rollout status deploy/messaging-topology-operator --timeout=5m
+        env:
+          LOG_LEVEL: debug
+
       - name: Apply RabbitMQ CRs (Cluster, Policy, User/Perms)
         run: |
           set -euo pipefail
           kubectl apply -n ${{env.K8S_NAMESPACE}} -f ${{env.OPERATOR_PATH}}/rabbitmqcluster.yaml
           kubectl apply -n ${{env.K8S_NAMESPACE}} -f ${{env.OPERATOR_PATH}}/policy-quorum.yaml
           kubectl apply -n ${{env.K8S_NAMESPACE}} -f ${{env.OPERATOR_PATH}}/user-permissions.yaml
+        env:
+          LOG_LEVEL: debug
+
+      - name: Create/Update app-user Secret from GitHub Secret
+        run: |
+          set -euo pipefail
+          kubectl -n "${K8S_NAMESPACE}" create secret generic app-user-secret \
+            --from-literal=username=app \
+            --from-literal=password="${{ secrets.RABBITMQ_APP_PASSWORD }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Wait for RabbitMQ Cluster to be Available
+        run: |
+          kubectl -n "${K8S_NAMESPACE}" wait --for=condition=Available=True rabbitmqcluster/rmq --timeout=10m
+
+      - name: Show status (pods, svc, CRs)
+        run: |
+          kubectl -n "${K8S_NAMESPACE}" get pods,svc
+          kubectl -n "${K8S_NAMESPACE}" get rabbitmqclusters.rabbitmq.com
