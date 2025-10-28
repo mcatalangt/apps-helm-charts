@@ -67,8 +67,7 @@ jobs:
       # -----------------------------------------------------------
       - name: 5. Ejecutar Helm Upgrade/Install
         run: |
-          helm upgrade rabbitmq-instance bitnami/rabbitmq \
-            --install my-rabbitmq bitnami/rabbitmq --version 16.0.14 \
+          helm install my-rabbitmq bitnami/rabbitmq --version 16.0.14 \
             -f ${{ env.HELM_CHART_PATH }}/custom-values.yaml \
             --namespace messaging \
             --atomic \
