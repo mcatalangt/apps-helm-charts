@@ -62,10 +62,12 @@ jobs:
           
           # 2. Actualiza la lista de Charts locales
           helm repo update          
-# -----------------------------------------------------------
-      # FASE II: DESPLIEGUE HELM
-      # -----------------------------------------------------------
-      - name: 5. Ejecutar Helm Upgrade/Install
+
+      - name: actualiza helm a la version mas reciente
+        run: |
+          upgrade rabbitmq-instance bitnami/rabbitmq \
+
+      - name: Ejecutar Helm Install
         run: |
           helm install rabbitmq-cluster oci://registry-1.docker.io/bitnamicharts/rabbitmq \
             -f ${{ env.HELM_CHART_PATH }}/custom-values.yaml \
