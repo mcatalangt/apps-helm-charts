@@ -4,17 +4,17 @@ metadata:
   name: rmq
   namespace: messaging
 spec:
-  replicas: 3
+  replicas: 1
   persistence:
     storageClassName: premium-rwo     # ajusta al tuyo
-    storage: 50Gi
+    storage: 2Gi
   resources:
     requests:
       cpu: "500m"
       memory: "1Gi"
     limits:
-      cpu: "2"
-      memory: "4Gi"
+      cpu: "500m"
+      memory: "1Gi"
   rabbitmq:
     additionalConfig: |
       default_features.quorum_queue = true
