@@ -6,15 +6,15 @@ metadata:
 spec:
   replicas: 3
   persistence:
-    storageClassName: premium-rwo
-    storage: 10Gi
+    storageClassName: premium-rwo     # ajusta al tuyo
+    storage: 50Gi
   resources:
     requests:
       cpu: "500m"
       memory: "1Gi"
     limits:
-      cpu: "500m"
-      memory: "1Gi"
+      cpu: "2"
+      memory: "4Gi"
   rabbitmq:
     additionalConfig: |
       default_features.quorum_queue = true
