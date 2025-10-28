@@ -48,37 +48,11 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_REGION }}
           project_id: ${{ env.PROJECT_ID }}
-          # 💡 Esto configura `kubectl` para apuntar a tu clúster.
 
-      - name: 4. Configurar Helm
-        uses: azure/setup-helm@v4
-        with:
-          version: 'v3.13.3'
-
-      - name: 4.5. Agregar y Actualizar Repositorio de Bitnami
+      - name: Install/Upgrade RabbitMQ Cluster Operator (pinned version)
         run: |
-          # 1. Agrega el repositorio de Bitnami (URL oficial)
-          helm repo add bitnami https://charts.bitnami.com/bitnami \
-          helm repo add rabbitmq https://charts.rabbitmq.com/
-          
-          # 2. Actualiza la lista de Charts locales
-          helm repo update
-
-
-      - name: Ejecutar Helm Install
-        run: |
-          helm upgrade rabbitmq-cluster rabbitmq/rabbitmq \
-            --install \
-            --namespace messaging \
-            --set replicas=2 \ 
-            --set persistence.enabled=true \
-            --set auth.username=admin \
-            --set auth.password=admin\
-            --atomic \
-            --wait
- #           helm install my-rabbitmq bitnami/rabbitmq --version 16.0.14 \
- #             --namespace messaging \
- #             --set auth.username=admin \
- #             --set auth.password=adminpassword \
- #             --set persistence.size=2Gi \
- #             --set replicaCount=2
+          set -euo pipefail
+          kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/download/${OPERATOR_VERSION}/cluster-operator.yml"
+          kubectl -n rabbitmq-system rollout status deploy/rabbitmq-operator --timeout=5m
+        env:
+          LOG_LEVEL: debug

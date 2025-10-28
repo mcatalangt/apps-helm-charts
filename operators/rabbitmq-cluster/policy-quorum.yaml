@@ -1,0 +1,14 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: Policy
+metadata:
+  name: quorum-default
+  namespace: messaging
+spec:
+  name: "quorum"
+  vhost: "/"
+  pattern: ".*"
+  applyTo: "queues"
+  definition:
+    queue-type: "quorum"
+  rabbitmqClusterReference:
+    name: rmq

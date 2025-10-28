@@ -1,0 +1,26 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: User
+metadata:
+  name: app-user
+  namespace: messaging
+spec:
+  tags: "management"
+  rabbitmqClusterReference:
+    name: rmq
+  importCredentialsSecret:
+    name: app-user-secret
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: Permission
+metadata:
+  name: app-perms
+  namespace: messaging
+spec:
+  vhost: "/"
+  user: "app"
+  permissions:
+    configure: ".*"
+    write: ".*"
+    read: ".*"
+  rabbitmqClusterReference:
+    name: rmq

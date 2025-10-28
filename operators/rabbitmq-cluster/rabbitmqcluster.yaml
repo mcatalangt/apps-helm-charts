@@ -1,0 +1,29 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rmq
+  namespace: messaging
+spec:
+  replicas: 3
+  persistence:
+    storageClassName: premium-rwo
+    storage: 10Gi
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "500m"
+      memory: "1Gi"
+  rabbitmq:
+    additionalConfig: |
+      default_features.quorum_queue = true
+      cluster_formation.peer_discovery_backend = classic_config
+    additionalPlugins:
+      - rabbitmq_management
+      - rabbitmq_prometheus
+      - rabbitmq_federation
+      - rabbitmq_shovel
+      - rabbitmq_stream
+  service:
+    type: ClusterIP
