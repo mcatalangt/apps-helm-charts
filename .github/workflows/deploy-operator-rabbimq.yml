@@ -79,13 +79,14 @@ jobs:
 
       - name: Install RabbitMQ Cluster Custom
         run: |
-            set -euo pipefail
             export PATH="$HOME/.krew/bin:$PATH"
             kubectl rabbitmq create rabbitmq-hello-world-cluster \
             --namespace messaging \
             --replicas 2 \
             --set-username admin \
             --set-password admin
+        env:
+          LOG_LEVEL: debug
 
 #      - name: Install/Upgrade RabbitMQ Messaging Topology Operator
 #        run: |
