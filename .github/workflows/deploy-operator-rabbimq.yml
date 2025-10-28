@@ -94,6 +94,7 @@ jobs:
         run: |
           set -euo pipefail
            kubectl apply -n ${{env.K8S_NAMESPACE}} -f ${{env.OPERATOR_PATH}}/rabbitmq-helloworld.yaml
+           kubectl get -o yaml rabbitmqclusters.rabbitmq.com hello-world
 #          kubectl apply -n ${{env.K8S_NAMESPACE}} -f ${{env.OPERATOR_PATH}}/policy-quorum.yaml
 #          kubectl apply -n ${{env.K8S_NAMESPACE}} -f ${{env.OPERATOR_PATH}}/user-permissions.yaml
         env:
