@@ -66,8 +66,8 @@ jobs:
 
       - name: Ejecutar Helm Install
         run: |
-            helm upgrade rabbitmq-cluster bitnami/rabbitmq \
-            --install oci://registry-1.docker.io/bitnamicharts/rabbitmq \
+            helm upgrade rabbitmq-instance bitnami/rabbitmq \
+            --install \
             -f ${{ env.HELM_CHART_PATH }}/custom-values.yaml \
             --namespace messaging \
             --atomic \
