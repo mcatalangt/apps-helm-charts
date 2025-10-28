@@ -66,11 +66,8 @@ jobs:
 
       - name: Ejecutar Helm Install
         run: |
-            helm upgrade rabbitmq-instance bitnamicharts/rabbitmq \
-            --install \
-            -f ${{ env.HELM_CHART_PATH }}/custom-values.yaml \
-            --namespace messaging \
-            --atomic \
-            --debug \
-            --wait \
-            --timeout 5m
+            helm install my-rabbitmq bitnami/rabbitmq --version 16.0.14 \
+              --set auth.username=admin \
+              --set auth.password=adminpassword \
+              --set persistence.size=2Gi \
+              --set replicaCount=2
