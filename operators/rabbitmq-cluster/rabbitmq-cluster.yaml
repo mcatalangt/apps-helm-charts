@@ -4,23 +4,18 @@ metadata:
   name: hello-world
   namespace: messaging
 spec:
-  rabbitmqConfig:
-    defaultUser:
-        username: admin 
-        passwordSecret:
-          name: rabbitmq-admin-secret
-          key: admin
   replicas: 2
-  persistence:
-    storageClassName: premium-rwo     # ajusta al tuyo
-    storage: 2Gi
+  defaultUser:
+    username: admin 
+    secret:
+      name: rabbitmq-admin-creds
   resources:
     requests:
-      cpu: "500m"
-      memory: "1Gi"
+      cpu: 500m
+      memory: 1Gi
     limits:
-      cpu: "500m"
-      memory: "1Gi"
+      cpu: 500m
+      memory: 1Gi
   rabbitmq:
     additionalPlugins:
       - rabbitmq_management

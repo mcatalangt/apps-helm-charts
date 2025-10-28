@@ -84,6 +84,11 @@ jobs:
 #          kubectl -n rabbitmq-system rollout status deploy/messaging-topology-operator --timeout=5m
 #        env:
 #          LOG_LEVEL: debug
+      - name: Apply RabbitMQ CRs (Cluster, Policy, User/Perms)
+        run: |
+            kubectl create secret generic rabbitmq-admin-creds -n messaging \
+            --from-literal=username=admin \
+            --from-literal=password=admin
 
       - name: Apply RabbitMQ CRs (Cluster, Policy, User/Perms)
         run: |
