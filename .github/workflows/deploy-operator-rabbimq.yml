@@ -77,6 +77,14 @@ jobs:
         env:
           LOG_LEVEL: debug
 
+      - name: Install RabbitMQ Cluster Operator
+        run: |
+            kubectl rabbitmq create rabbitmq-hello-world-cluster \
+            --namespace messaging \
+            --replicas 2 \
+            --set-username admin \
+            --set-password admin
+
 #      - name: Install/Upgrade RabbitMQ Messaging Topology Operator
 #        run: |
 #          kubectl apply -f "https://github.com/rabbitmq/messaging-topology-operator/releases/latest/download/messaging-topology-operator.yaml"
