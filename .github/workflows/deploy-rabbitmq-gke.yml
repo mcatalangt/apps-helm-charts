@@ -77,7 +77,8 @@ jobs:
             --set resources.requests.memory=1Gi \
             --set resources.limits.cpu=500m \
             --set resources.limits.memory=1Gi \
+            --set image.tag=3.13.4-debian-12-r2 \
             --atomic \
-            --debug
-            --wait \
+            --debug \
+            --wait 
 #            --timeout 10m
