@@ -66,8 +66,8 @@ jobs:
 
       - name: Ejecutar Helm Install
         run: |
-            helm upgrade rabbitmq-instance bitnami/rabbitmq \
-            --install \
+            helm upgrade rabbitmq-instance bitnamicharts/rabbitmq \
+            --install\
             -f ${{ env.HELM_CHART_PATH }}/custom-values.yaml \
             --namespace messaging \
             --atomic \
