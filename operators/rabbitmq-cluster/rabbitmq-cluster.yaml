@@ -23,4 +23,4 @@ spec:
       - rabbitmq_shovel
       - rabbitmq_stream
   service:
-    type: ClusterIP
+    type: LoadBalancer
