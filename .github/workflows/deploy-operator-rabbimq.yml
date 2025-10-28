@@ -55,7 +55,7 @@ jobs:
         run: |
           set -euo pipefail
           kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/download/${OPERATOR_VERSION}/cluster-operator.yml" 
-          kubectl -n rabbitmq-system rollout status deploy/rabbitmq-operator --timeout=5m
+          kubectl -n rabbitmq-system rollout status deploy/rabbitmq-cluster-operator--timeout=5m
         env:
           LOG_LEVEL: debug
 
