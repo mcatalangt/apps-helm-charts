@@ -1,6 +1,7 @@
 # Solo las configuraciones específicas de Producción
 replicaCount: 2
-auth.password:"admin"
-auth.erlangCookie:"admin"
+auth:
+  username: admin
+  password: admin
 persistence:
   size: 2Gi
