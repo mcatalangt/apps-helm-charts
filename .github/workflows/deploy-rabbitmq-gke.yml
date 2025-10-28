@@ -58,8 +58,7 @@ jobs:
       - name: 4.5. Agregar y Actualizar Repositorio de Bitnami
         run: |
           # 1. Agrega el repositorio de Bitnami (URL oficial)
-          helm repo add bitnami https://charts.bitnami.com/bitnami \
-          helm repo add rabbitmq https://charts.rabbitmq.com/
+          helm repo add rabbitmq https://charts.rabbitmq.com/ \
           
           # 2. Actualiza la lista de Charts locales
           helm repo update
