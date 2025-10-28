@@ -77,4 +77,7 @@ jobs:
             --set resources.requests.memory=1Gi \
             --set resources.limits.cpu=1000m \
             --set resources.limits.memory=2Gi \
-            --atomic 
+            --atomic \
+            --debug
+#            --wait \
+#            --timeout 10m
