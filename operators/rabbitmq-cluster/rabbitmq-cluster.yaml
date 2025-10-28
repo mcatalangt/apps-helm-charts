@@ -1,7 +1,7 @@
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
-  name: rmhello-world
+  name: hello-world
   namespace: messaging
 spec:
   replicas: 2
@@ -16,9 +16,6 @@ spec:
       cpu: "500m"
       memory: "1Gi"
   rabbitmq:
-    additionalConfig: |
-      default_features.quorum_queue = true
-      cluster_formation.peer_discovery_backend = classic_config
     additionalPlugins:
       - rabbitmq_management
       - rabbitmq_prometheus
