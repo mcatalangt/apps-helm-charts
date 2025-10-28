@@ -1,10 +1,10 @@
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
-  name: rmq
+  name: rmhello-world
   namespace: messaging
 spec:
-  replicas: 1
+  replicas: 2
   persistence:
     storageClassName: premium-rwo     # ajusta al tuyo
     storage: 2Gi
