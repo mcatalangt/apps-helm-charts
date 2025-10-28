@@ -4,11 +4,12 @@ metadata:
   name: hello-world
   namespace: messaging
 spec:
-  defaultUser:
-      username: admin 
-      passwordSecret:
-        name: rabbitmq-admin-secret
-        key: admin
+  rabbitmqConfig:
+    defaultUser:
+        username: admin 
+        passwordSecret:
+          name: rabbitmq-admin-secret
+          key: admin
   replicas: 2
   persistence:
     storageClassName: premium-rwo     # ajusta al tuyo
