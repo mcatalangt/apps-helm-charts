@@ -61,11 +61,11 @@ jobs:
           helm repo add bitnami https://charts.bitnami.com/bitnami
           
           # 2. Actualiza la lista de Charts locales
-          helm repo update          
+          helm repo update
 
       - name: actualiza helm a la version mas reciente
         run: |
-          upgrade rabbitmq-instance bitnami/rabbitmq \
+          helm upgrade rabbitmq-instance bitnami/rabbitmq \
 
       - name: Ejecutar Helm Install
         run: |
