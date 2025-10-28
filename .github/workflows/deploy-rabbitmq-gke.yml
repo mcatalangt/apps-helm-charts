@@ -77,7 +77,8 @@ jobs:
             --set resources.requests.memory=1Gi \
             --set resources.limits.cpu=500m \
             --set resources.limits.memory=1Gi \
-            --set image.tag=3.13.4-debian-12-r2 \
+            --set image.repository=docker.io/bitnami/rabbitmq \
+            --set image.tag=3.13.4 \
             --atomic \
             --debug \
             --wait 
