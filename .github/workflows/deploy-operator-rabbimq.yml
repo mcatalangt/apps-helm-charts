@@ -77,8 +77,10 @@ jobs:
         env:
           LOG_LEVEL: debug
 
-      - name: Install RabbitMQ Cluster Operator
+      - name: Install RabbitMQ Cluster Custom
         run: |
+            set -euo pipefail
+            export PATH="$HOME/.krew/bin:$PATH"
             kubectl rabbitmq create rabbitmq-hello-world-cluster \
             --namespace messaging \
             --replicas 2 \
