@@ -80,10 +80,11 @@ jobs:
       - name: Install RabbitMQ Cluster Custom
         run: |
             export PATH="$HOME/.krew/bin:$PATH"
-            kubectl -n messaging rabbitmq create rabbitmq-hello-world-cluster \
+            kubectl rabbitmq create rabbitmq-hello-world-cluster \
             --replicas 2 \
             --set-username admin \
-            --set-password admin
+            --set-password admin \
+            -n messaging
         env:
           LOG_LEVEL: debug
 
