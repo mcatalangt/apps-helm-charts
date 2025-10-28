@@ -75,8 +75,8 @@ jobs:
             --set auth.password=admin \
             --set resources.requests.cpu=500m \
             --set resources.requests.memory=1Gi \
-            --set resources.limits.cpu=1000m \
-            --set resources.limits.memory=2Gi \
+            --set resources.limits.cpu=500m \
+            --set resources.limits.memory=1Gi \
             --atomic \
             --debug
 #            --wait \
