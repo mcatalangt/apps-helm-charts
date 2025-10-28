@@ -5,9 +5,7 @@ metadata:
   namespace: messaging
 spec:
   replicas: 2
-  defaultUser:
-    username: admin 
-    secret:
+  defaultUserSecret:
       name: rabbitmq-admin-creds
   resources:
     requests:
