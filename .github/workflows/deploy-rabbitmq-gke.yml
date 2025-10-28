@@ -79,5 +79,5 @@ jobs:
             --set resources.limits.memory=1Gi \
             --atomic \
             --debug
-#            --wait \
+            --wait \
 #            --timeout 10m
