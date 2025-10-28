@@ -1,4 +1,4 @@
 # Solo las configuraciones específicas de Producción
-replicaCount: 2
+replicaCount: 1
 persistence:
   size: 2Gi
