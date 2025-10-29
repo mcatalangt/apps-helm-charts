@@ -1,5 +1,5 @@
 # .github/workflows/deploy-helm-gke.yml
-name: Despliegue de RabbitMQ Operator
+name: Deploy RabbitMQ single
 
 on:
   workflow_dispatch:
