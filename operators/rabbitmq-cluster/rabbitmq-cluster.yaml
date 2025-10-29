@@ -6,9 +6,9 @@ metadata:
 spec:
   replicas: 2
   rabbitmq:
-  additionalConfig: |
-    default_user=guest
-    default_pass=guest
+    additionalConfig: |
+      default_user=guest
+      default_pass=guest
   resources:
     requests:
       cpu: 500m
