@@ -1,0 +1,95 @@
+# .github/workflows/deploy-helm-gke.yml
+name: Despliegue de RabbitMQ Operator
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy (dev, prod)"
+        required: true
+        default: dev
+#  push:
+#    branches:
+#      - main
+
+env:
+  PROJECT_ID: ${{ vars.GCP_PROJECT }}
+  GKE_REGION: ${{ vars.GKE_ZONE }}
+  GKE_CLUSTER: ${{ vars.GKE_CLUSTER }}
+  OPERATOR_VERSION: latest
+  K8S_NAMESPACE: messaging 
+  OPERATOR_PATH: operators/rabbitmq-cluster
+  IMAGE_TAG: ${{ github.sha }} 
+  # Se asume que tienes un Secret llamado GCP_SA_KEY para la autenticación
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Necesario para OIDC si usas Workload Identity
+      
+    steps:
+      - name: 1. Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 2. Autenticación con Google Cloud
+        uses: 'google-github-actions/auth@v2'
+        with:
+          # Usar clave de SA o Workload Identity (preferido)
+          credentials_json: ${{ secrets.GCP_SA_KEY }} 
+
+      - name: 3. Configurar Conexión a GKE (Kubeconfig)
+        uses: 'google-github-actions/get-gke-credentials@v2'
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_REGION }}
+          project_id: ${{ env.PROJECT_ID }}
+#          kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/${OPERATOR_VERSION}/download/cluster-operator.yml"
+
+      - name: Instalar Krew
+        run: |
+          # Descargar e instalar Krew
+          (
+            set -x; cd "$(mktemp -d)" &&
+            curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz" &&
+            tar zxvf krew-linux_amd64.tar.gz &&
+            ./krew-linux_amd64 install krew
+          )
+
+      - name: Instalar Plugins (Ejemplo)
+        run: |
+          export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+          kubectl krew  
+          kubectl krew install rabbitmq
+
+      - name: Install RabbitMQ Cluster Operator
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.krew/bin:$PATH"
+          kubectl rabbitmq install-cluster-operator
+          kubectl -n rabbitmq-system rollout status deploy/rabbitmq-cluster-operator --timeout=5m
+        env:
+          LOG_LEVEL: debug
+
+
+#      - name: Install/Upgrade RabbitMQ Messaging Topology Operator
+#        run: |
+#          kubectl apply -f "https://github.com/rabbitmq/messaging-topology-operator/releases/latest/download/messaging-topology-operator.yaml"
+#          kubectl -n rabbitmq-system rollout status deploy/messaging-topology-operator --timeout=5m
+#        env:
+#          LOG_LEVEL: debug
+#      - name: Apply RabbitMQ CRs (Cluster, Policy, User/Perms)
+#        run: |
+#            kubectl create secret generic rabbitmq-admin-creds -n messaging \
+#            --from-literal=username=admin \
+#            --from-literal=password=admin
+
+      - name: Apply RabbitMQ CRs (Cluster, Policy, User/Perms)
+        run: |
+          set -euo pipefail
+           kubectl apply -n ${{env.K8S_NAMESPACE}} -f ${{env.OPERATOR_PATH}}/rabbitmq-cluster.yaml
+#          kubectl apply -n ${{env.K8S_NAMESPACE}} -f ${{env.OPERATOR_PATH}}/policy-quorum.yaml
+#          kubectl apply -n ${{env.K8S_NAMESPACE}} -f ${{env.OPERATOR_PATH}}/user-permissions.yaml
+        env:
+            LOG_LEVEL: debug
