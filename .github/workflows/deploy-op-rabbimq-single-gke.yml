@@ -73,7 +73,7 @@ jobs:
       - name: Install/Upgrade RabbitMQ Messaging Topology Operator
         run: |
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
-          kubectl apply -f "https://github.com/rabbitmq/messaging-topology-operator/releases/latest/download/messaging-topology-operator.yaml"
+          kubectl apply -f https://github.com/rabbitmq/messaging-topology-operator/releases/latest/download/messaging-topology-operator-with-certmanager.yaml
           kubectl -n rabbitmq-system rollout status deploy/messaging-topology-operator --timeout=5m
         env:
           LOG_LEVEL: debug
