@@ -1,0 +1,13 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: Queue
+metadata:
+  name: hola-mundo # name of this custom resource; does not have to the same as the actual queue name
+  namespace: messaging
+spec:
+  name: hola.mundo.queue # name of the queue
+  vhost: "/"           # VHost al que pertenece (generalmente el root '/')
+  durable: true        # ⬅️ IMPORTANTE: La cola persistirá al reinicio del broker
+  autoDelete: false
+  rabbitmqClusterReference:
+    name: hello-world-server
+    namespace: messaging
