@@ -81,6 +81,8 @@ jobs:
         run: |
           kubectl apply -f https://github.com/rabbitmq/messaging-topology-operator/releases/latest/download/messaging-topology-operator-with-certmanager.yaml
           kubectl -n rabbitmq-system rollout status deploy/messaging-topology-operator --timeout=5m
+        env:
+          LOG_LEVEL: debug
 
       - name: Apply RabbitMQ CRs (Cluster, Policy, User/Perms)
         run: |
