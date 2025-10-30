@@ -9,5 +9,5 @@ spec:
   durable: true        # ⬅️ IMPORTANTE: La cola persistirá al reinicio del broker
   autoDelete: false
   rabbitmqClusterReference:
-    name: hello-world
+    name: hello-world-server
     namespace: messaging
