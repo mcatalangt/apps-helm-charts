@@ -70,14 +70,14 @@ jobs:
           LOG_LEVEL: debug
 
 
-      - name: Install/Upgrade RabbitMQ Messaging Topology Operator
+      - name: Install/Upgrade cert-manager
         run: |
           kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.1/cert-manager.yaml
           kubectl rollout status deployment/cert-manager-webhook -n cert-manager --timeout=5m
         env:
           LOG_LEVEL: debug
  
-      - name: Apply RabbitMQ CRs (Cluster, Policy, User/Perms)
+      - name: Install/Upgrade RabbitMQ Messaging Topology Operator
         run: |
           kubectl apply -f https://github.com/rabbitmq/messaging-topology-operator/releases/latest/download/messaging-topology-operator-with-certmanager.yaml
           kubectl -n rabbitmq-system rollout status deploy/messaging-topology-operator --timeout=5m
