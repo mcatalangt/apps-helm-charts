@@ -4,7 +4,9 @@ metadata:
   name: federation-uri
 type: Opaque
 data:
-  uri: amqp://hello-world.messaging.svc.cluster.local:5672/archivos-remotos
+  uri: YW1xcDovL2hlbGxvLXdvcmxkLm1lc3NhZ2luZy5zdmMuY2x1c3Rlci5sb2NhbDo1NjcyL2FyY2hpdm9zLXJlbW90b3M=
+  
+  #amqp://hello-world.messaging.svc.cluster.local:5672/archivos-remotos
 
 ---
 apiVersion: rabbitmq.com/v1beta1
