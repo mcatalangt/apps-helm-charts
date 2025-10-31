@@ -40,7 +40,7 @@ spec:
   vhost: "/"
   arguments:
     x-queue-type: stream
-  maxSegmentSize: 500000000
+  #maxSegmentSize: 500000000
   maxAge: 7d
   rabbitmqClusterReference:
     name: hello-world
