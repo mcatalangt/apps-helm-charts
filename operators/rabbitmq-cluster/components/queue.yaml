@@ -37,11 +37,12 @@ metadata:
   namespace: messaging
 spec:
   name: telemetry.events.stream
-  vhost: "/"
+  vhost: "/data-processing"
+  type: stream # without providing a queue type, rabbitmq creates a classic queue
+  durable: true # mandatory for stream queues
   arguments:
-    x-queue-type: stream
-  #maxSegmentSize: 500000000
-  #maxAge: 7d
+    x-max-length-bytes: 1000000000 ## setting the retention policy
+  deletionPolicy: retain # delete or retain; default to delete;
   rabbitmqClusterReference:
     name: hello-world
     namespace: messaging
