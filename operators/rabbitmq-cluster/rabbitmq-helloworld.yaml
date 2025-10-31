@@ -5,20 +5,20 @@ metadata:
 spec:
   service:
     type: LoadBalancer
-    plugins:
-    # Plugins de administración y UI (casi siempre necesarios)
-    - name: rabbitmq_management
-    
-    # Plugin para alta disponibilidad y consistencia fuerte
-    - name: rabbitmq_quorum_queue
-    
-    # Plugin para conectar dos clústeres de RabbitMQ
-    - name: rabbitmq_federation
-    - name: rabbitmq_federation_management # Necesario para ver en la UI
-    
-    # Plugin para transferencias confiables (Shovel)
-    - name: rabbitmq_shovel
-    - name: rabbitmq_shovel_management # Necesario para ver en la UI
-    
-    # Plugin necesario para la conectividad interna en Kubernetes (¡Muy Importante!)
-    - name: rabbitmq_peer_discovery_k8s
+  plugins:
+  # Plugins de administración y UI (casi siempre necesarios)
+  - name: rabbitmq_management
+  
+  # Plugin para alta disponibilidad y consistencia fuerte
+  - name: rabbitmq_quorum_queue
+  
+  # Plugin para conectar dos clústeres de RabbitMQ
+  - name: rabbitmq_federation
+  - name: rabbitmq_federation_management # Necesario para ver en la UI
+  
+  # Plugin para transferencias confiables (Shovel)
+  - name: rabbitmq_shovel
+  - name: rabbitmq_shovel_management # Necesario para ver en la UI
+  
+  # Plugin necesario para la conectividad interna en Kubernetes (¡Muy Importante!)
+  - name: rabbitmq_peer_discovery_k8s
