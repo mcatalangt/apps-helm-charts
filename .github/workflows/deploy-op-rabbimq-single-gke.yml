@@ -97,7 +97,7 @@ jobs:
       - name: create Queue Resource
         run: |
           kubectl apply -f ${{env.OPERATOR_PATH}}/components/virtualhosts.yaml -n messaging
-          kubectl apply -f ${{env.OPERATOR_PATH}}/components/exchange.yaml -n messagin
+          kubectl apply -f ${{env.OPERATOR_PATH}}/components/exchange.yaml -n messaging
           kubectl apply -f ${{env.OPERATOR_PATH}}/components/queue.yaml -n messaging
           kubectl apply -f ${{env.OPERATOR_PATH}}/components/federation.yaml -n messaging
           kubectl apply -f ${{env.OPERATOR_PATH}}/components/shovel.yaml -n messaging
