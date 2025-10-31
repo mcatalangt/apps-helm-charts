@@ -1,18 +1,27 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: shovel-secret
+type: Opaque
+data:
+  destUri: # encoded value for shovel destination URI; to learn about how to construct a valid uri, see: https://www.rabbitmq.com/uri-spec.html
+  srcUri: # encoded value shove source URI
+
+---
 apiVersion: rabbitmq.com/v1beta1
 kind: Shovel
 metadata:
-  name: backup-to-archive-shovel
-  namespace: messaging
+  name: shovel-example
 spec:
+  name: "shovel-example"
+  uriSecret:
+    name: shovel-secret
+  srcQueue: "source-queue"
+  srcConsumerArgs: # optional consume arguments
+    x-priority: 10
+  destQueue: "destination-queue"
+  destPublishProperties: # optional map of properties to overwrite when shovelling messages
+    delivery_mode: 2
+  deletionPolicy: retain # delete or retain; default to delete;
   rabbitmqClusterReference:
     name: hello-world
-    namespace: messaging
-  source:
-    protocol: amqp
-    uri: amqp://hello-world.messaging.svc.cluster.local:5672
-    queue: backup.queue
-    
-  destination:
-    protocol: amqp
-    uri: amqp://cluster-archive.messaging.svc.cluster.local:5672
-    exchange: incoming.archive.exchange

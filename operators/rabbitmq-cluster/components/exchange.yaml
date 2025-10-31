@@ -1,11 +1,60 @@
 apiVersion: rabbitmq.com/v1beta1
 kind: Exchange
 metadata:
-  name: exchange-pedidos
+  name: direct
   namespace: messaging
 spec:
-  name: order.events.exchange
+  name: direct-exchange
+  type: direct
+  durable: true
+  vhost: "/data-processing"
+  rabbitmqClusterReference:
+    name: hello-world
+    namespace: messaging
+
+---
+
+apiVersion: rabbitmq.com/v1beta1
+kind: Exchange
+metadata:
+  name: topic
+  namespace: messaging
+spec:
+  name: topic-exchange
   type: topic
+  durable: true
+  vhost: "/data-processing"
+  rabbitmqClusterReference:
+    name: hello-world
+    namespace: messaging
+
+---
+---
+
+apiVersion: rabbitmq.com/v1beta1
+kind: Exchange
+metadata:
+  name: fanout
+  namespace: messaging
+spec:
+  name: fanout-exchange
+  type: fanout
+  durable: true
+  vhost: "/data-processing"
+  rabbitmqClusterReference:
+    name: hello-world
+    namespace: messaging
+
+---
+
+apiVersion: rabbitmq.com/v1beta1
+kind: Exchange
+metadata:
+  name: headers
+  namespace: messaging
+spec:
+  name: headers-exchange
+  type: headers
   durable: true
   vhost: "/data-processing"
   rabbitmqClusterReference:

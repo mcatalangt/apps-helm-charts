@@ -1,32 +1,25 @@
-apiVersion: rabbitmq.com/v1beta1
-kind: User
+apiVersion: v1
+kind: Secret
 metadata:
-  name: upstream-usa
-  namespace: messaging
-spec:
-  name: upstream-usa 
+  name: federation-uri
+type: Opaque
+data:
+  uri: amqp://admin:admin@hello-world.messaging.svc.cluster.local:5672/archivos-remotos
 
 ---
-
-
 apiVersion: rabbitmq.com/v1beta1
-kind: Exchange
+kind: Federation
 metadata:
-  name: federated-exchange-eu
+  name: federation-example
   namespace: messaging
 spec:
-  name: orders.events
-  type: topic
-  vhost: "/"
+  name: "origin"
+  vhost: "/data-processing"
+  uriSecret:
+    # secret must be created in the same namespace as this Federation object; in this case 'rabbitmq-system'
+    name: federation-uri
+  ackMode: "on-confirm"
+  deletionPolicy: retain
   rabbitmqClusterReference:
     name: hello-world
     namespace: messaging
-    
-
-  federation:
-    upstream:
-      name: upstream-usa 
-      uri: amqp://cluster-usa.messaging.svc.cluster.local:5672 
-    upstreamRef:
-      name: upstream-usa
-      namespace: messaging
