@@ -1,13 +1,45 @@
 apiVersion: rabbitmq.com/v1beta1
 kind: Queue
 metadata:
-  name: hola-mundo # name of this custom resource; does not have to the same as the actual queue name
+  name: classic-tasks-queue
   namespace: messaging
 spec:
-  name: hola.mundo.queue # name of the queue
-  vhost: "/"           # VHost al que pertenece (generalmente el root '/')
-  durable: true        # ⬅️ IMPORTANTE: La cola persistirá al reinicio del broker
-  autoDelete: false
+  name: classic.queue.tasks
+  vhost: "/data-processing"
+  durable: true 
+  arguments:
+    x-queue-type: classic
+  rabbitmqClusterReference:
+    name: hello-world
+    namespace: messaging
+
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: Queue
+metadata:
+  name: quorum-orders-queue
+  namespace: messaging
+spec:
+  name: quorum.queue.orders
+  durable: true
+  vhost: "/data-processing"
+  arguments:
+    x-queue-type: quorum
+  rabbitmqClusterReference:
+    name: hello-world
+    namespace: messaging
+
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: Stream
+metadata:
+  name: telemetry-events-stream
+  namespace: messaging
+spec:
+  name: telemetry.events.stream
+  vhost: "/"
+  maxSegmentSize: 500000000
+  maxAge: 7d
   rabbitmqClusterReference:
     name: hello-world
     namespace: messaging

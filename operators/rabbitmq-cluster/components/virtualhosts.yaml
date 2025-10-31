@@ -1,0 +1,26 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: Vhost
+metadata:
+  name: data-processing-vhost
+  namespace: messaging
+spec:
+  name: /data-processing
+  rabbitmqClusterReference:
+    name: hello-world
+    namespace: messaging
+
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: User
+metadata:
+  name: processor-user
+  namespace: messaging
+spec:
+  vhostAccess:
+    /data-processing:
+      configure: ".*" 
+      read: ".*"     
+      write: ".*"
+  rabbitmqClusterReference:
+    name: hello-world
+    namespace: messaging

@@ -1,0 +1,13 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: Exchange
+metadata:
+  name: exchange-pedidos
+  namespace: messaging
+spec:
+  name: order.events.exchange
+  type: topic
+  durable: true
+  vhost: "/data-processing"
+  rabbitmqClusterReference:
+    name: hello-world
+    namespace: messaging

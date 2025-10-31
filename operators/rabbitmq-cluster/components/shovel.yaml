@@ -1,0 +1,18 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: Shovel
+metadata:
+  name: backup-to-archive-shovel
+  namespace: messaging
+spec:
+  rabbitmqClusterReference:
+    name: hello-world
+    namespace: messaging
+  source:
+    protocol: amqp
+    uri: amqp://hello-world.messaging.svc.cluster.local:5672
+    queue: backup.queue
+    
+  destination:
+    protocol: amqp
+    uri: amqp://cluster-archive.messaging.svc.cluster.local:5672
+    exchange: incoming.archive.exchange
