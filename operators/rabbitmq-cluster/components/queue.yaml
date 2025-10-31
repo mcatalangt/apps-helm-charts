@@ -31,13 +31,15 @@ spec:
 
 ---
 apiVersion: rabbitmq.com/v1beta1
-kind: Stream
+kind: Queue
 metadata:
   name: telemetry-events-stream
   namespace: messaging
 spec:
   name: telemetry.events.stream
   vhost: "/"
+  arguments:
+    x-queue-type: stream
   maxSegmentSize: 500000000
   maxAge: 7d
   rabbitmqClusterReference:
