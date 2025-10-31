@@ -4,7 +4,7 @@ metadata:
   name: federation-uri
 type: Opaque
 data:
-  uri: amqp://admin:admin@hello-world.messaging.svc.cluster.local:5672/archivos-remotos
+  uri: amqp://hello-world.messaging.svc.cluster.local:5672/archivos-remotos
 
 ---
 apiVersion: rabbitmq.com/v1beta1
@@ -16,7 +16,6 @@ spec:
   name: "origin"
   vhost: "/data-processing"
   uriSecret:
-    # secret must be created in the same namespace as this Federation object; in this case 'rabbitmq-system'
     name: federation-uri
   ackMode: "on-confirm"
   deletionPolicy: retain
