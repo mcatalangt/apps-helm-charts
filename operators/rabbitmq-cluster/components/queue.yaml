@@ -41,7 +41,7 @@ spec:
   arguments:
     x-queue-type: stream
   #maxSegmentSize: 500000000
-  maxAge: 7d
+  #maxAge: 7d
   rabbitmqClusterReference:
     name: hello-world
     namespace: messaging
