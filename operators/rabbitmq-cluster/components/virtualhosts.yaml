@@ -8,19 +8,3 @@ spec:
   rabbitmqClusterReference:
     name: hello-world
     namespace: messaging
-
----
-apiVersion: rabbitmq.com/v1beta1
-kind: User
-metadata:
-  name: processor-user
-  namespace: messaging
-spec:
-  vhostAccess:
-    /data-processing:
-      configure: ".*" 
-      read: ".*"     
-      write: ".*"
-  rabbitmqClusterReference:
-    name: hello-world
-    namespace: messaging
